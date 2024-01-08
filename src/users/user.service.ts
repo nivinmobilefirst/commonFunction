@@ -1,13 +1,23 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+
 import { User } from './data/user.dto';
+import { UserTable } from '../database/entities/user.entity';
 
 @Injectable()
 export class UserService {
   public user: User[] = [];
-  addUser(user: User): string {
+  constructor(
+    @InjectRepository(UserTable)
+    private readonly userRepository: Repository<UserTable>,
+  ) { }
+  addUser(user: User): any {
     console.log('user', user);
-    this.user.push(user);
-    return 'User added successfully';
+    const userObj = new UserTable();
+    userObj.name = user.name;
+    userObj.email = user.email;
+    return this.userRepository.save(userObj);
   }
 
   updateUser(user: User): string {
