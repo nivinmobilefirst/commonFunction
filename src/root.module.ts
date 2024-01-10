@@ -9,8 +9,6 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
 import * as path from "path";
 import { UserTable } from './database/entities/user.entity';
 
-//   url: configService.get<string>('DATABASE_URL', 'postgres://postgres:postgres123@localhost:5432/commonfunction'),
-
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -20,7 +18,7 @@ import { UserTable } from './database/entities/user.entity';
     TypeOrmModule.forRootAsync({
       useFactory: async (configService: ConfigService) => ({
         type: 'postgres', // Add this line
-        url: configService.get<string>('DATABASE_URL', 'postgres://postgres:Comfun100@localhost:5432/commonFunction'),
+        url: configService.get<string>('DATABASE_URL', 'postgres://postgres:postgres123@localhost:5432/commonfunction'),
         entities: [UserTable],
         synchronize: true,
       }),
